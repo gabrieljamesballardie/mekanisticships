@@ -1,0 +1,101 @@
+plugins {
+    id 'net.minecraftforge.gradle' version "${forgegradle_version}"
+    id 'eclipse'
+    id 'maven-publish'
+}
+
+version = mod_version
+group = mod_group
+
+base {
+    archivesName = mod_id
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+minecraft {
+    mappings channel: 'official', version: minecraft_version
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+repositories {
+    maven { url = 'https://maven.minecraftforge.net' }
+    mavenCentral()
+    def prismModsDir = "/Users/gabriellove/Library/Application Support/PrismLauncher/instances/JJG's Updated Server/minecraft/mods"
+    flatDir {
+        dirs prismModsDir
+    }
+    // Add additional maven repos here if needed for deobf artifacts.
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    // Local runtime mods (user-provided jars)
+    implementation fg.deobf(group: 'local', name: 'Mekanism-1.20.1', version: '10.4.16.80')
+    implementation fg.deobf(group: 'local', name: 'valkyrienskies-120', version: '2.4.5')
+    implementation fg.deobf(group: 'local', name: 'eureka-1201', version: '1.6.1')
+    implementation fg.deobf(group: 'local', name: 'kotlinforforge', version: '4.11.0-all')
+
+    runtimeOnly fg.deobf(group: 'local', name: 'Mekanism-1.20.1', version: '10.4.16.80')
+    runtimeOnly fg.deobf(group: 'local', name: 'valkyrienskies-120', version: '2.4.5')
+    runtimeOnly fg.deobf(group: 'local', name: 'eureka-1201', version: '1.6.1')
+    runtimeOnly fg.deobf(group: 'local', name: 'kotlinforforge', version: '4.11.0-all')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    inputs.property "version", mod_version
+    filesMatching("META-INF/mods.toml") {
+        expand "version": mod_version
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url = "${project.buildDir}/repo"
+        }
+    }
+}

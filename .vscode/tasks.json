@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Gradle: runClient",
+      "type": "shell",
+      "command": "/bin/bash",
+      "args": ["-lc", "export JAVA_HOME=$(/usr/libexec/java_home -v 17) && ./gradlew runClient"],
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Gradle: runServer",
+      "type": "shell",
+      "command": "/bin/bash",
+      "args": ["-lc", "export JAVA_HOME=$(/usr/libexec/java_home -v 17) && ./gradlew runServer"],
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

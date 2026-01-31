@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="mekanisticships"
+version="${version}"
+displayName="Mekanistic Ships"
+authors="You"
+description='''
+Forge energy powered Eureka engine.
+'''
+
+[[dependencies.mekanisticships]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.mekanisticships]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1]"
+ordering="NONE"
+side="BOTH"

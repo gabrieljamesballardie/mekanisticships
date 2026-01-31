@@ -1,0 +1,10 @@
+.gradle/
+build/
+run/
+*.log
+*.log.gz
+*.class
+*.jar
+*.zip
+.DS_Store
+.vscode/
