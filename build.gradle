@@ -54,10 +54,11 @@ minecraft {
 repositories {
     maven { url = 'https://maven.minecraftforge.net' }
     mavenCentral()
-    // Local mods directory (set this to your own path if you store mods elsewhere)
-    def localModsDir = "${project.rootDir}/mods"
+    // Set this to your local mods folder (Prism/CurseForge/etc.).
+    // Example: "/path/to/your/instance/minecraft/mods"
+    def modsDir = "/Users/gabriellove/Library/Application Support/PrismLauncher/instances/JJG's Updated Server/minecraft/mods"
     flatDir {
-        dirs localModsDir
+        dirs modsDir
     }
     // Add additional maven repos here if needed for deobf artifacts.
 }
@@ -66,7 +67,6 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // Local runtime mods (user-provided jars)
-    // Place these jars in the local mods directory above (or update localModsDir to your own path)
     implementation fg.deobf(group: 'local', name: 'Mekanism-1.20.1', version: '10.4.16.80')
     implementation fg.deobf(group: 'local', name: 'valkyrienskies-120', version: '2.4.5')
     implementation fg.deobf(group: 'local', name: 'eureka-1201', version: '1.6.1')

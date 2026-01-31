@@ -7,4 +7,4 @@ Forge 1.20.1 mod scaffolding targeting Forge 47.4.2.
 - Use the Gradle tasks `runClient` and `runServer`.
 
 ## Local mod jars
-This project references local jars from a `mods` directory at the repo root. If you store mods elsewhere, update `localModsDir` in build.gradle.
+This project references local jars from the PrismLauncher instance provided in `build.gradle`.
