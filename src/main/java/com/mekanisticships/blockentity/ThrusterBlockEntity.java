@@ -2,11 +2,9 @@ package com.mekanisticships.blockentity;
 
 import com.mekanisticships.block.ThrusterBlock;
 import com.mekanisticships.registry.ModBlockEntities;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
@@ -43,7 +41,7 @@ public class ThrusterBlockEntity extends BlockEntity {
             int consumed = blockEntity.energy.extractEnergy(FE_PER_TICK_REQUIRED, false);
             blockEntity.updateThrust(level, consumed);
             blockEntity.setActive(level, pos, state, true);
-            blockEntity.showConsumptionMessage(level);
+            // blockEntity.showConsumptionMessage(level); // Removed green action-bar message
         } else {
             blockEntity.currentThrust = 0f;
             blockEntity.setActive(level, pos, state, false);
@@ -80,16 +78,7 @@ public class ThrusterBlockEntity extends BlockEntity {
         control.setPowerAngular(control.getPowerAngular() + angular);
     }
 
-    private void showConsumptionMessage(Level level) {
-        if (level.getGameTime() % 20L != 0L) {
-            return;
-        }
-        Component message = Component.literal("Thruster Consuming " + energy.getEnergyStored() + " FE")
-            .withStyle(ChatFormatting.GREEN);
-        level.players().stream()
-            .filter(player -> player.distanceToSqr(worldPosition.getX() + 0.5D, worldPosition.getY() + 0.5D, worldPosition.getZ() + 0.5D) <= 64)
-            .forEach(player -> player.displayClientMessage(message, true));
-    }
+        // Removed showConsumptionMessage method to eliminate the green action-bar message
 
     private void setActive(Level level, BlockPos pos, BlockState state, boolean newActive) {
         if (active == newActive) {

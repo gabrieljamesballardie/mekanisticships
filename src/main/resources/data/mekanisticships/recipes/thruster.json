@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SRS",
+    "ACA",
+    "SDS"
+  ],
+  "key": {
+    "S": {
+      "item": "mekanism:ingot_steel"
+    },
+    "R": {
+      "item": "mekanism:alloy_reinforced"
+    },
+    "A": {
+      "item": "mekanism:advanced_control_circuit"
+    },
+    "C": {
+      "item": "mekanism:steel_casing"
+    },
+    "D": {
+      "item": "mekanism:dynamic_tank"
+    }
+  },
+  "result": {
+    "item": "mekanisticships:thruster"
+  }
+}
