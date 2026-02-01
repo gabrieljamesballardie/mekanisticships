@@ -7,6 +7,10 @@ plugins {
 version = mod_version
 group = mod_group
 
+// Set this to your local mods folder (Prism/CurseForge/etc.).
+// Example: "/path/to/your/instance/minecraft/mods"
+def modsDir = "/Users/gabriellove/Library/Application Support/PrismLauncher/instances/JJG's Updated Server/minecraft/mods"
+
 base {
     archivesName = mod_id
 }
@@ -54,13 +58,24 @@ minecraft {
 repositories {
     maven { url = 'https://maven.minecraftforge.net' }
     mavenCentral()
-    // Set this to your local mods folder (Prism/CurseForge/etc.).
-    // Example: "/path/to/your/instance/minecraft/mods"
-    def modsDir = "/Users/gabriellove/Library/Application Support/PrismLauncher/instances/JJG's Updated Server/minecraft/mods"
     flatDir {
         dirs modsDir
     }
     // Add additional maven repos here if needed for deobf artifacts.
+}
+
+def vsModJar = file("${modsDir}/valkyrienskies-120-2.4.5.jar")
+def vsNestedDir = layout.buildDirectory.dir("vsNestedJars")
+
+tasks.register("extractVsNestedJars", Copy) {
+    from(zipTree(vsModJar)) {
+        include "META-INF/jars/*.jar"
+    }
+    into(vsNestedDir)
+    eachFile { fileCopyDetails ->
+        fileCopyDetails.path = fileCopyDetails.name
+    }
+    includeEmptyDirs = false
 }
 
 dependencies {
@@ -72,10 +87,17 @@ dependencies {
     implementation fg.deobf(group: 'local', name: 'eureka-1201', version: '1.6.1')
     implementation fg.deobf(group: 'local', name: 'kotlinforforge', version: '4.11.0-all')
 
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
+    implementation fileTree(vsNestedDir) { include "*.jar" }
+
     runtimeOnly fg.deobf(group: 'local', name: 'Mekanism-1.20.1', version: '10.4.16.80')
     runtimeOnly fg.deobf(group: 'local', name: 'valkyrienskies-120', version: '2.4.5')
     runtimeOnly fg.deobf(group: 'local', name: 'eureka-1201', version: '1.6.1')
     runtimeOnly fg.deobf(group: 'local', name: 'kotlinforforge', version: '4.11.0-all')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    dependsOn tasks.named("extractVsNestedJars")
 }
 
 tasks.withType(JavaCompile).configureEach {

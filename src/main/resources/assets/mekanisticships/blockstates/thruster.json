@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "mekanisticships:block/thruster"
+    },
+    "active=true": {
+      "model": "mekanisticships:block/thruster"
+    }
+  }
+}

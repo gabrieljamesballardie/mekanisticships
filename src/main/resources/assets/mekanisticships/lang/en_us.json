@@ -1,1 +1,4 @@
-{}
+{
+	"block.mekanisticships.thruster": "Thruster",
+	"itemGroup.mekanisticships": "Mekanistic Ships"
+}
